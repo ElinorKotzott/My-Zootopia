@@ -62,8 +62,6 @@ except FileNotFoundError:
 #replaces old string with animal info
 new_data = template_data.replace("__REPLACE_ANIMALS_INFO__", final_output)
 
-print(new_data)
-
 #creates new file with HTML and animal info
 with open("animals.html", "w") as handle:
     handle.write(new_data)
