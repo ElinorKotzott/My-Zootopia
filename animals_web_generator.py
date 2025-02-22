@@ -13,22 +13,27 @@ for animal in animals_data:
     output = output + "<li class='cards__item'>"
     name = animal.get('name')
     if name is not None:
-        output = output + f"Name: {name}<br/>\n"
+        #ensuring the apostrophe will be depicted correctly
+        if "’" in name:
+            name = name.replace("’", "'&rsquo;'")
+        output = output + f"<div class='card__title'> {name}<div/>\n"
+
+    output = output + "<p class='card__text'>\n"
 
     diet = animal.get('characteristics').get('diet')
     if diet is not None:
-        output = output + f"Diet: {diet}<br/>\n"
+        output = output + f"<strong>Diet:</strong> {diet}<br/>\n"
 
     locations = animal.get('locations')
     if locations is not None and len(locations) != 0:
         location = locations[0]
-        output = output + f"Location: {location}<br/>\n"
+        output = output + f"<strong>Location:</strong> {location}<br/>\n"
 
     animal_type = animal.get('characteristics').get('type')
     if animal_type is not None:
-        output = output + f"Type: {animal_type}<br/>\n"
+        output = output + f"<strong>Type:</strong> {animal_type}<br/>\n"
 
-    output = output + "</li>"
+    output = output + "</p>\n</li>"
 
 print(output)
 
