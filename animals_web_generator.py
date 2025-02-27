@@ -1,13 +1,13 @@
 import json
 
 def load_data(file_path):
-  """ Loads a JSON file """
-  with open(file_path, "r") as handle:
+    """ Loads a JSON file """
     try:
-        return json.load(handle)
+        with open(file_path, "r") as handle:
+            return json.load(handle)
     except FileNotFoundError:
         print("Cannot load data, file doesn't exist!")
-
+        return None
 
 
 def serialize_animal(animal_obj):
@@ -65,6 +65,7 @@ def main():
             template_data = handle.read()
     except FileNotFoundError:
         print("The file was not found.")
+        return None
     # replaces old string with animal info
     new_data = template_data.replace("__REPLACE_ANIMALS_INFO__", final_output)
     # creates new file with HTML and animal info
