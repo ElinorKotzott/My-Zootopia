@@ -1,13 +1,7 @@
-import json
+import requests
 
-def load_data(file_path):
-    """ Loads a JSON file """
-    try:
-        with open(file_path, "r") as handle:
-            return json.load(handle)
-    except FileNotFoundError:
-        print("Cannot load data, file doesn't exist!")
-        return None
+
+API_KEY = "wqEJWKbgffVTxjMcJ57eBQ==jQMZfDNw6PInOeqG"
 
 
 def serialize_animal(animal_obj):
@@ -54,7 +48,15 @@ def serialize_animal(animal_obj):
 
 
 def main():
-    animals_data = load_data('animals_data.json')
+    animal = input("Enter an animal name! ")
+    url = f"https://api.api-ninjas.com/v1/animals?&name={animal}"
+
+    animals_data = requests.get(url, headers={"X-Api-Key": API_KEY}).json()
+    if not animals_data:
+        print(f"{animal} doesn't exist!")
+    else:
+        print(animals_data)
+
 
     final_output = ""
     for animal in animals_data:
