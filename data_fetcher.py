@@ -5,6 +5,7 @@ load_dotenv()
 API_KEY = os.getenv('API_KEY')
 
 def fetch_data():
+    """fetches data from animal API depending on user_input"""
     animal = input("Enter an animal name! ")
     url = f"https://api.api-ninjas.com/v1/animals?&name={animal}"
     try:
