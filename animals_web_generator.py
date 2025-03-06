@@ -1,8 +1,4 @@
-import requests
-
-
-API_KEY = "wqEJWKbgffVTxjMcJ57eBQ==jQMZfDNw6PInOeqG"
-
+import data_fetcher
 
 def serialize_animal(animal_obj):
     """concatenates strings for the HTML file using the list of dictionaries in animals_data"""
@@ -48,17 +44,13 @@ def serialize_animal(animal_obj):
 
 
 def main():
-    animal = input("Enter an animal name! ")
-    url = f"https://api.api-ninjas.com/v1/animals?&name={animal}"
-    try:
-        animals_data = requests.get(url, headers={"X-Api-Key": API_KEY}).json()
-    except requests.exceptions.RequestException as e:
-        print(f"An error occurred while fetching the data: {e}")
-        return
-
-    if not animals_data:
-        error_string = f"{animal} doesn't exist!"
+    animals_data = data_fetcher.fetch_data()
+    if animals_data is not None:
+        final_output = ""
+        for animal in animals_data:
+            final_output = final_output + serialize_animal(animal)
         # reads animals_template
+
         try:
             with open("animals_template.html", "r") as handle:
                 template_data = handle.read()
@@ -66,31 +58,11 @@ def main():
             print("The file was not found.")
             return None
         # replaces old string with animal info
-        new_data = template_data.replace("__REPLACE_ANIMALS_INFO__", error_string)
+        new_data = template_data.replace("__REPLACE_ANIMALS_INFO__", final_output)
+        print("Website was successfully generated to the file 'animals.html'.")
         # creates new file with HTML and animal info
         with open("animals.html", "w") as handle:
             handle.write(new_data)
-        return
-    else:
-        print("Website was successfully generated to the file 'animals.html'.")
-
-
-    final_output = ""
-    for animal in animals_data:
-        final_output = final_output + serialize_animal(animal)
-    # reads animals_template
-
-    try:
-        with open("animals_template.html", "r") as handle:
-            template_data = handle.read()
-    except FileNotFoundError:
-        print("The file was not found.")
-        return None
-    # replaces old string with animal info
-    new_data = template_data.replace("__REPLACE_ANIMALS_INFO__", final_output)
-    # creates new file with HTML and animal info
-    with open("animals.html", "w") as handle:
-        handle.write(new_data)
 
 
 if __name__ == "__main__":
