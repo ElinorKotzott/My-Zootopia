@@ -1,7 +1,5 @@
 import requests
 
-API_KEY = "wqEJWKbgffVTxjMcJ57eBQ==jQMZfDNw6PInOeqG"
-
 def fetch_data():
     animal = input("Enter an animal name! ")
     url = f"https://api.api-ninjas.com/v1/animals?&name={animal}"
